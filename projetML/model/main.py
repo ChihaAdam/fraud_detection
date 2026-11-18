@@ -44,3 +44,5 @@ if __name__ == "__main__":
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     tableau.to_csv(RESULTS_DIR / "resultats.csv", index=False)
     print("\nRésultats sauvegardés dans :", RESULTS_DIR)
+
+
