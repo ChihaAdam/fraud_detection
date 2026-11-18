@@ -18,3 +18,6 @@ def evaluate_model(nom, modele, X_train, X_test, y_train, y_test, cls):
         "Fraudes détectées": f"{tp}/{tp + fn}",
         "Fausses alertes": fp,
     }
+
+
+

@@ -5,3 +5,4 @@ from .evaluation import evaluate_model
 
 __all__ = ["svm_model", "decision_tree_model",
            "logistic_regression_model", "evaluate_model"]
+
