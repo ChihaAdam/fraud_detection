@@ -45,3 +45,7 @@ if __name__ == "__main__":
     y = df['Class']
     for cls in ["A", "B", "C", "D", "E"]:
         generate_under_sampling_with_nearmiss(X,y,cls)
+
+
+
+
