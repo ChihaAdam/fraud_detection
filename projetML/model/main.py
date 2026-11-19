@@ -3,9 +3,9 @@ from pathlib import Path
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-import ml_models
-from ml_models import (svm_model, decision_tree_model,
-                       logistic_regression_model, evaluate_model)
+from model import ml_models
+from model.ml_models import (svm_model, decision_tree_model,
+                             logistic_regression_model, evaluate_model)
 
 BASE = Path(__file__).parent
 DATASET_DIR = BASE / "dataset"
