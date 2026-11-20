@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/projetML.iml" filepath="$PROJECT_DIR$/.idea/projetML.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/fraud_detection.iml" filepath="$PROJECT_DIR$/.idea/fraud_detection.iml" />
+>>>>>>> 86a154a3e1ddee088aefcdfad62713db5854118a
     </modules>
   </component>
 </project>
