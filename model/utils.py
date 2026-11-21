@@ -1,7 +1,7 @@
 """Petites fonctions utilitaires : titres, sauvegarde des figures et tableaux."""
 import matplotlib.pyplot as plt
 
-from model import config
+import config
 
 
 def titre(texte):

@@ -1,6 +1,6 @@
 """Étape 1 : afficher et interpréter les données."""
-from model import config
-from model.utils import titre
+import config
+from utils import titre
 
 
 def display_data(df):

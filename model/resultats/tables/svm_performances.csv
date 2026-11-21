@@ -1,3 +1,0 @@
-﻿Jeu,Accuracy,Precision,Recall,F1
-Train (CV=4),0.9597,0.9753,0.9418,0.9583
-Test,0.9534,1.0,0.9053,0.9503

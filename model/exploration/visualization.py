@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
-from model import config
-from model.utils import save_figure, titre
+import config
+from utils import save_figure, titre
 
 sns.set_theme(style="whitegrid", context="notebook")
 

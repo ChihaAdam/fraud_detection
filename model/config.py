@@ -7,6 +7,7 @@ DATASET_DIR = BASE_DIR / "dataset"
 RESULTS_DIR = BASE_DIR / "resultats"
 FIGURES_DIR = RESULTS_DIR / "figures"
 TABLES_DIR = RESULTS_DIR / "tables"
+MODEL_PATH = BASE_DIR / "api" / "model.joblib"   # modèle entraîné, réutilisé par l'API
 
 # ----------------------------------------------------------------- données
 DATASET_NAME = "A"          # A = 492 normales / 492 fraudes (NearMiss)

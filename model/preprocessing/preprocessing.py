@@ -8,9 +8,9 @@ import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.model_selection import train_test_split
 
-from model import config
-from model.dataset.loader import split_xy
-from model.utils import titre
+import config
+from dataset.loader import split_xy
+from utils import titre
 
 
 class OutlierClipper(BaseEstimator, TransformerMixin):

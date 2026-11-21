@@ -11,8 +11,8 @@ import pandas as pd
 import seaborn as sns
 from sklearn.feature_selection import SelectKBest, f_classif, mutual_info_classif
 
-from model import config
-from model.utils import save_figure, save_table, titre
+import config
+from utils import save_figure, save_table, titre
 
 
 def build_selector(k="all"):
