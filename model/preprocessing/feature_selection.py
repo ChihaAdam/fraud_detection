@@ -51,7 +51,7 @@ def get_selected_features(pipeline, columns):
 
 
 def analyze_features(X_train, y_train):
-    titre("ÉTAPE 5 - SÉLECTION DES CARACTÉRISTIQUES")
+    titre("ÉTAPE 4 - SÉLECTION DES CARACTÉRISTIQUES")
     scores = compute_feature_scores(X_train, y_train)
     print(scores.head(10).round(3).to_string(index=False))
     save_table(scores.round(4), "scores_caracteristiques")

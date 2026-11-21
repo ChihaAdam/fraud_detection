@@ -29,21 +29,19 @@ def build_svm_pipeline():
         ("svm", SVC(random_state=config.RANDOM_STATE)),
     ])
 
-def tune_svm(X_train, y_train):
+def tune_svm(X, y):
     """GridSearchCV (StratifiedKFold, CV = 4) ; sélection du meilleur F1."""
-    titre("ÉTAPE 7 - APPRENTISSAGE SVM + RECHERCHE DES PARAMÈTRES (CV = 4)")
-    cv = StratifiedKFold(n_splits=config.CV_FOLDS, shuffle=True,
-                         random_state=config.RANDOM_STATE)
+    titre("ÉTAPE 6 - APPRENTISSAGE SVM + RECHERCHE DES PARAMÈTRES (CV = 4)")
     grid = GridSearchCV(
         build_svm_pipeline(),
         param_grid=config.SVM_PARAM_GRID,
         scoring=config.SCORING,
         refit=config.REFIT_METRIC,
-        cv=cv,
+        cv=config.CV_FOLDS,
         n_jobs=-1,
         return_train_score=False,
     )
-    grid.fit(X_train, y_train)
+    grid.fit(X,y)
 
     n_combi = len(grid.cv_results_["params"])
     print(f"{n_combi} combinaisons x {config.CV_FOLDS} plis = "

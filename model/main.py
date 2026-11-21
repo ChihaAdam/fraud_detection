@@ -14,7 +14,7 @@ import config
 from dataset.loader import load_dataset
 from exploration import display_data, visualize_data
 from preprocessing.preprocessing import preprocess
-from preprocessing import analyze_features, get_selected_features
+from preprocessing import analyze_features, get_selected_features, clean_data
 from ml_models import (tune_svm, cv_results_table, evaluate_svm, summary_tables)
 
 
@@ -25,13 +25,14 @@ def main():
     visualize_data(df)
 
     # 4) Pré-traitement (nettoyage + split train/test)
-    X_train, X_test, y_train, y_test = preprocess(df)
+    X_train, X_test, y_train, y_test,X,y = preprocess(df)
+
 
     # 5) Sélection des caractéristiques (scores sur le train)
     scores = analyze_features(X_train, y_train)
 
     # 6) Apprentissage + paramètres optimaux (GridSearchCV, CV = 4)
-    grid = tune_svm(X_train, y_train)
+    grid = tune_svm(X,y)
     cv_results_table(grid)
 
     # 7) Évaluation : matrices de confusion, ROC, métriques
@@ -49,6 +50,6 @@ if __name__ == "__main__":
     parser.add_argument("--no-show", action="store_true",
                         help="ne pas afficher les figures (les sauvegarder seulement)")
     args = parser.parse_args()
-    if args.no_show:
+    if args.no_show :
         config.SHOW_PLOTS = False
     main()

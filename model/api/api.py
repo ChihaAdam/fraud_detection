@@ -10,7 +10,7 @@ import joblib
 from flask import Flask, jsonify, request
 from dataset.loader import load_dataset, split_xy
 from ml_models.svm import build_svm_pipeline
-from preprocessing.preprocessing import clean_data
+from preprocessing.preprocessing import clean_data, preprocess
 
 app = Flask(__name__)
 
@@ -26,7 +26,8 @@ def get_model():
             saved = joblib.load(config.MODEL_PATH)
             _model, _n_features = saved["model"], saved["n_features"]
         else:
-            X, y = split_xy(clean_data(load_dataset()))
+            df = load_dataset()
+            X_train, X_test, y_train, y_test,X,y = preprocess(df)
             _model = build_svm_pipeline().fit(X, y)
             _n_features = X.shape[1]
             joblib.dump({"model": _model, "n_features": _n_features},
