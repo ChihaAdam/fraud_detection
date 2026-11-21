@@ -1,0 +1,5 @@
+﻿Hyperparamètre,Valeur optimale
+k,20
+C,100
+kernel,linear
+variables retenues,20/30
