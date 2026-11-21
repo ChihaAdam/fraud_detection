@@ -21,7 +21,7 @@ def build_svm_pipeline():
     """Clipping des outliers -> normalisation -> sélection de variables -> SVM."""
     scaler = StandardScaler()
     out = OutlierClipper()
-    selector = build_selector()
+    selector = build_selector(k=10)
     return Pipeline([
         ("clipper", out),
         ("scaler", scaler),

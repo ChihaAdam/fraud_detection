@@ -18,16 +18,16 @@ PALETTE = {"Normale": "#3b7dd8", "Fraude": "#d8453b"}
 # ----------------------------------------------------------- pré-traitement
 RANDOM_STATE = 42
 TEST_SIZE = 0.2
-OUTLIER_FACTOR_DETECTION = 1.5   # règle classique de Tukey (détection)
-OUTLIER_FACTOR_CLIPPING = 3.0    # valeurs extrêmes seulement (traitement)
+OUTLIER_FACTOR_DETECTION = 1.5   
+OUTLIER_FACTOR_CLIPPING = 3.0    
 
 # --------------------------------------------------------- validation croisée
-CV_FOLDS = 4                     # imposé par l'énoncé (CV = 4)
+CV_FOLDS = 4                    
 SCORING = ["accuracy", "precision", "recall", "f1"]
 REFIT_METRIC = "f1"
 
 # ------------------------------------------------------------ grille de l'SVM
-K_FEATURES = [10, 20, "all"]     # nombre de variables gardées (SelectKBest)
+K_FEATURES = [10, 20, "all"]     
 C_VALUES = [0.1, 1, 10, 100, 1000]
 GAMMA_VALUES = ["scale", 0.001, 0.01, 0.1]
 

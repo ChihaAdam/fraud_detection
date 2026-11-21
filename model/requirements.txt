@@ -1,0 +1,8 @@
+flask
+pandas
+numpy
+scikit-learn
+joblib
+seaborn
+matplotlib
+imbalanced-learn   # uniquement pour dataset/dataset.py (génération NearMiss)

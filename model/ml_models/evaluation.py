@@ -57,7 +57,6 @@ def evaluate_svm(grid, X_train, y_train, X_test, y_test):
                                 target_names=list(config.LABELS.values()), digits=4))
 
     plot_confusion_matrices(cm_cv, cm_test)
-    plot_roc_curve(best, X_test, y_test)
     plot_grid_heatmap(grid)
 
     return {
@@ -86,19 +85,6 @@ def plot_confusion_matrices(cm_cv, cm_test):
     fig.suptitle("Matrices de confusion - SVM", y=1.02)
     fig.tight_layout()
     save_figure(fig, "10_matrices_confusion_svm")
-
-
-def plot_roc_curve(modele, X_test, y_test):
-    scores = modele.decision_function(X_test)
-    fpr, tpr, _ = roc_curve(y_test, scores)
-    fig, ax = plt.subplots(figsize=(5.5, 5))
-    ax.plot(fpr, tpr, lw=2, label=f"SVM (AUC = {auc(fpr, tpr):.4f})")
-    ax.plot([0, 1], [0, 1], "k--", label="Hasard")
-    ax.set_xlabel("Taux de faux positifs")
-    ax.set_ylabel("Taux de vrais positifs (Recall)")
-    ax.set_title("Courbe ROC - jeu de test")
-    ax.legend(loc="lower right")
-    save_figure(fig, "11_courbe_roc_svm")
 
 
 def plot_grid_heatmap(grid):
