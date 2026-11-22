@@ -1,0 +1,45 @@
+.viz-tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding-top: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.viz-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: -1px;
+  padding: 13px 18px;
+  border-bottom: 2px solid transparent;
+  color: var(--dim);
+  font: 600 10px/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.16s, border-color 0.16s;
+}
+
+.viz-tab:hover {
+  color: var(--muted);
+}
+
+.viz-tab.active {
+  color: var(--ink);
+  border-bottom-color: var(--signal);
+}
+
+.viz-tab-index {
+  color: var(--signal);
+  font-size: 9px;
+}
+
+@media (max-width: 640px) {
+  .viz-tab {
+    gap: 6px;
+    padding: 12px 10px;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+}

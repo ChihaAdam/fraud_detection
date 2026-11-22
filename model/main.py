@@ -7,15 +7,16 @@ import argparse
 import sys
 from pathlib import Path
 
-# permet aussi `python main.py` depuis le dossier model/
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+# permet `python -m model.main` depuis la racine et `python main.py` depuis model/
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import config
 from dataset.loader import load_dataset
 from exploration import display_data, visualize_data
 from preprocessing.preprocessing import preprocess
-from preprocessing import analyze_features, get_selected_features, clean_data
+from preprocessing import analyze_features, get_selected_features
 from ml_models import (tune_svm, cv_results_table, evaluate_svm, summary_tables)
+from utils import save_model
 
 
 def main():
@@ -25,17 +26,19 @@ def main():
     visualize_data(df)
 
     # 4) Pré-traitement (nettoyage + split train/test)
-    X_train, X_test, y_train, y_test,X,y = preprocess(df)
-
+    X_train, X_test, y_train, y_test = preprocess(df)
 
     # 5) Sélection des caractéristiques (scores sur le train)
     scores = analyze_features(X_train, y_train)
 
-    # 6) Apprentissage + paramètres optimaux (GridSearchCV, CV = 4)
-    grid = tune_svm(X,y)
+    # 6) Apprentissage + paramètres optimaux sur le TRAIN uniquement
+    grid = tune_svm(X_train, y_train)
     cv_results_table(grid)
 
-    # 7) Évaluation : matrices de confusion, ROC, métriques
+    # Le meilleur estimateur (entraîné sur le train) est celui servi par l'API.
+    save_model(grid.best_estimator_, X_train.shape[1])
+
+    # 7) Évaluation sur le test, jamais vu pendant le réglage
     resultats = evaluate_svm(grid, X_train, y_train, X_test, y_test)
 
     # 8) Tableaux récapitulatifs
@@ -50,6 +53,5 @@ if __name__ == "__main__":
     parser.add_argument("--no-show", action="store_true",
                         help="ne pas afficher les figures (les sauvegarder seulement)")
     args = parser.parse_args()
-    if args.no_show :
-        config.SHOW_PLOTS = False
+    config.SHOW_PLOTS = False
     main()

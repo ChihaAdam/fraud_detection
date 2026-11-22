@@ -1,4 +1,4 @@
-"""Modèle SVM : pipeline complet + recherche des hyperparamètres (CV = 4)."""
+"""Modèle SVM : pipeline complet + recherche des hyperparamètres (CV = 5)."""
 import pandas as pd
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
 from sklearn.pipeline import Pipeline
@@ -29,19 +29,25 @@ def build_svm_pipeline():
         ("svm", SVC(random_state=config.RANDOM_STATE)),
     ])
 
-def tune_svm(X, y):
-    """GridSearchCV (StratifiedKFold, CV = 4) ; sélection du meilleur F1."""
-    titre("ÉTAPE 6 - APPRENTISSAGE SVM + RECHERCHE DES PARAMÈTRES (CV = 4)")
+def tune_svm(X_train, y_train):
+    """GridSearchCV sur le TRAIN uniquement ; sélection du meilleur F1.
+
+    Le jeu de test ne doit jamais être fourni ici : il sert uniquement à
+    l'évaluation finale, après le choix des hyperparamètres.
+    """
+    titre(f"ÉTAPE 6 - APPRENTISSAGE SVM + RECHERCHE DES PARAMÈTRES (CV = {config.CV_FOLDS})")
+    cv = StratifiedKFold(n_splits=config.CV_FOLDS, shuffle=True,
+                         random_state=config.RANDOM_STATE)
     grid = GridSearchCV(
         build_svm_pipeline(),
         param_grid=config.SVM_PARAM_GRID,
         scoring=config.SCORING,
         refit=config.REFIT_METRIC,
-        cv=config.CV_FOLDS,
+        cv=cv,
         n_jobs=-1,
         return_train_score=False,
     )
-    grid.fit(X,y)
+    grid.fit(X_train, y_train)
 
     n_combi = len(grid.cv_results_["params"])
     print(f"{n_combi} combinaisons x {config.CV_FOLDS} plis = "

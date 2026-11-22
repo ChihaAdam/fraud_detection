@@ -1,0 +1,73 @@
+.cm-chart {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.cm-chart svg {
+  display: block;
+}
+
+.cm-axis-note {
+  position: absolute;
+  z-index: 1;
+  color: var(--dim);
+  font: 600 9px/1 var(--mono);
+  letter-spacing: 0.14em;
+  pointer-events: none;
+}
+
+.cm-axis-note-top {
+  top: 0;
+  left: 88px;
+}
+
+.cm-axis-note-bottom {
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cm-tooltip {
+  min-width: 190px;
+  padding: 12px 14px;
+  border: 1px solid rgba(239, 59, 44, 0.45);
+  background: var(--panel-2);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.cm-tooltip > span {
+  display: block;
+  color: var(--signal-hot);
+  font: 700 9px/1 var(--mono);
+  letter-spacing: 0.14em;
+}
+
+.cm-tooltip > strong {
+  display: block;
+  margin-top: 10px;
+  font: 600 13px/1 var(--sans);
+  color: var(--ink);
+}
+
+.cm-tooltip > div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font: 500 10px/1 var(--mono);
+}
+
+.cm-tooltip em {
+  font-style: normal;
+  color: var(--muted);
+}
+
+.cm-tooltip b {
+  margin-left: auto;
+  color: var(--ink);
+  font-size: 13px;
+}

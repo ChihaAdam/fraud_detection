@@ -119,12 +119,12 @@ def summary_tables(grid, resultats, selected_features, n_features_total):
     )
     params.loc[len(params)] = ["variables retenues",
                                f"{len(selected_features)}/{n_features_total}"]
-    print("\n--- Paramètres optimaux (CV = 4) ---")
+    print(f"\n--- Paramètres optimaux (CV = {config.CV_FOLDS}) ---")
     print(params.to_string(index=False))
     save_table(params, "svm_parametres_optimaux")
 
     perf = pd.DataFrame({
-        "Train (CV=4)": resultats["metrics_cv"],
+        f"Train (CV={config.CV_FOLDS})": resultats["metrics_cv"],
         "Test": resultats["metrics_test"],
     }).T.round(4)
     perf.index.name = "Jeu"

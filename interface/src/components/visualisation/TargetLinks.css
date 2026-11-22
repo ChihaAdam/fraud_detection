@@ -1,0 +1,103 @@
+.target-links-body {
+  padding: 30px 26px 34px;
+}
+
+.target-links-lede {
+  max-width: 640px;
+  margin: 0 0 30px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.target-links-lede strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.target-links-head {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  color: var(--dim);
+  font: 600 9px/1 var(--mono);
+  letter-spacing: 0.14em;
+}
+
+.target-links-row {
+  display: grid;
+  grid-template-columns: 30px 70px minmax(0, 1fr) 72px;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.target-links-index {
+  color: var(--dim);
+  font: 600 10px/1 var(--mono);
+}
+
+.target-links-name {
+  color: var(--ink);
+  font: 600 12px/1 var(--mono);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.target-links-track {
+  position: relative;
+  height: 8px;
+  background: #211e1e;
+}
+
+.target-links-track::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  left: 50%;
+  width: 1px;
+  background: var(--line);
+}
+
+.target-links-track > span {
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+
+.target-links-track > span.is-positive {
+  left: 50%;
+  background: var(--signal);
+}
+
+.target-links-track > span.is-negative {
+  right: 50%;
+  background: #3b7dd8;
+}
+
+.target-links-row > strong {
+  text-align: right;
+  font: 600 11px/1 var(--mono);
+}
+
+.target-links-row > strong.is-positive {
+  color: var(--signal-hot);
+}
+
+.target-links-row > strong.is-negative {
+  color: #6ea2e8;
+}
+
+@media (max-width: 640px) {
+  .target-links-body {
+    padding: 24px 16px 28px;
+  }
+
+  .target-links-row {
+    grid-template-columns: 24px 52px minmax(0, 1fr) 60px;
+    gap: 9px;
+  }
+}

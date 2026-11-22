@@ -22,7 +22,7 @@ OUTLIER_FACTOR_DETECTION = 1.5
 OUTLIER_FACTOR_CLIPPING = 3.0    
 
 # --------------------------------------------------------- validation croisée
-CV_FOLDS = 4                    
+CV_FOLDS = 5                    
 SCORING = ["accuracy", "precision", "recall", "f1"]
 REFIT_METRIC = "f1"
 

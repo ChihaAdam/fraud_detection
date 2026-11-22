@@ -57,9 +57,8 @@ def preprocess(df):
     """Nettoyage + split. Les étapes apprises (clipping, scaling) sont dans le Pipeline."""
     titre("ÉTAPE 3 - PRÉ-TRAITEMENT")
     df = clean_data(df)
-    X,y = split_xy(df)
     X_train, X_test, y_train, y_test = split_data(df)
     print("\nDans le Pipeline SVM (appris sur le train uniquement) :")
     print(f"  1. OutlierClipper ({config.OUTLIER_FACTOR_CLIPPING} x IQR)")
     print("  2. StandardScaler (moyenne 0, écart-type 1) - obligatoire pour un SVM")
-    return X_train, X_test, y_train, y_test,X,y
+    return X_train, X_test, y_train, y_test

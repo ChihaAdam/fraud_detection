@@ -1,6 +1,5 @@
 ﻿Hyperparamètre,Valeur optimale
-k,all
-C,10
-gamma,scale
-kernel,rbf
-variables retenues,30/30
+k,20
+C,100
+kernel,linear
+variables retenues,20/30

@@ -1,0 +1,144 @@
+.core-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding: 22px 24px;
+}
+
+.section-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 24px;
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+  background: #0b0a0a;
+  font: 500 10px/1 var(--mono);
+  letter-spacing: 0.14em;
+  color: var(--dim);
+}
+
+.vector-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px 10px;
+  padding: 20px 24px 24px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 18px 24px;
+  border-top: 1px solid var(--line);
+  background: #0b0a0a;
+}
+
+.run-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  min-width: 232px;
+  padding: 14px 16px;
+  border: 1px solid var(--signal);
+  background: var(--signal);
+  color: #fff;
+  font: 700 12px/1 var(--mono);
+  letter-spacing: 0.12em;
+  transition: background 0.16s, transform 0.16s;
+}
+
+.run-button:hover:not(:disabled) {
+  background: var(--signal-hot);
+  transform: translateY(-1px);
+}
+
+.run-button:disabled {
+  opacity: 0.55;
+}
+
+.run-arrow {
+  font-size: 16px;
+}
+
+.samples {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.samples button {
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font: 600 10px/1 var(--mono);
+  letter-spacing: 0.1em;
+  transition: color 0.16s, border-color 0.16s;
+}
+
+.samples button:hover {
+  color: var(--ink);
+  border-color: #5c514f;
+}
+
+.payload {
+  border-top: 1px solid var(--line);
+}
+
+.payload summary {
+  display: flex;
+  justify-content: space-between;
+  padding: 13px 24px;
+  list-style: none;
+  cursor: pointer;
+  font: 600 10px/1 var(--mono);
+  letter-spacing: 0.12em;
+  color: var(--dim);
+}
+
+.payload summary::-webkit-details-marker {
+  display: none;
+}
+
+.payload summary span {
+  color: var(--signal);
+}
+
+.payload pre {
+  max-height: 220px;
+  margin: 0;
+  padding: 0 24px 20px;
+  overflow: auto;
+  color: #9b918e;
+  font: 500 11px/1.6 var(--mono);
+}
+
+@media (max-width: 1100px) {
+  .vector-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .core-grid,
+  .vector-grid {
+    padding: 18px;
+  }
+
+  .vector-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .section-bar,
+  .actions,
+  .payload summary {
+    padding-inline: 18px;
+  }
+
+  .run-button {
+    width: 100%;
+  }
+}

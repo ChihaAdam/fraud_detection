@@ -1,6 +1,5 @@
 """Étape 2 : visualisation des données avec seaborn."""
 import matplotlib.pyplot as plt
-import numpy as np
 import seaborn as sns
 
 import config
@@ -34,13 +33,6 @@ def plot_class_distribution(df):
     ax.set_ylabel("Nombre de transactions")
     save_figure(fig, "01_repartition_classes")
 
-def plot_correlation_heatmap(df):
-    fig, ax = plt.subplots(figsize=(13, 10))
-    sns.heatmap(df.corr(), cmap="coolwarm", center=0, vmin=-1, vmax=1,
-                square=True, linewidths=0.2, cbar_kws={"shrink": 0.7}, ax=ax)
-    ax.set_title("Matrice de corrélation")
-    save_figure(fig, "04_matrice_correlation")
-
 
 def plot_correlation_with_target(df):
     corr = df.corr()[config.TARGET].drop(config.TARGET).sort_values()
@@ -48,7 +40,7 @@ def plot_correlation_with_target(df):
     sns.barplot(x=corr.values, y=corr.index, color="#5b8def", ax=ax)
     ax.set_title("Corrélation de chaque variable avec Class (fraude)")
     ax.set_xlabel("Coefficient de corrélation de Pearson")
-    save_figure(fig, "05_correlation_avec_cible")
+    save_figure(fig, "04_correlation_avec_cible")
 
 
 def plot_boxplots_top_features(df, n=8):
@@ -62,19 +54,14 @@ def plot_boxplots_top_features(df, n=8):
         ax.set_xlabel("")
     fig.suptitle(f"Boxplots des {n} variables les plus liées à la fraude", y=1.0)
     fig.tight_layout()
-    save_figure(fig, "06_boxplots_top_variables")
+    save_figure(fig, "05_boxplots_top_variables")
 
 
 def visualize_data(df):
     titre("ÉTAPE 2 - VISUALISATION (seaborn)")
     plot_class_distribution(df)
-    plot_correlation_heatmap(df)
     plot_correlation_with_target(df)
     plot_boxplots_top_features(df)
-    print("\nLecture : les variables dont les densités des deux classes se "
-          "séparent nettement (ex. V14, V4, V12...) sont les plus utiles pour "
-          "détecter la fraude.")
-if __name__ == "__main__":
-    from dataset.loader import load_dataset
-    df = load_dataset(config.DATASET_NAME)
-    plot_correlation_heatmap(df)
+    print("\nLecture : les variables dont les distributions des deux classes "
+          "se séparent nettement (ex. V14, V4, V12...) sont les plus utiles "
+          "pour détecter la fraude.")
