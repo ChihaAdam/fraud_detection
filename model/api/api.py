@@ -7,11 +7,13 @@ from pathlib import Path
 # permet `python model/api/api.py` comme `python -m model.api.api`
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+import pandas as pd
 from flask import Flask, Response, jsonify, request
 from sklearn.metrics import confusion_matrix
 
 import config
 from dataset.loader import load_dataset
+from preprocessing.feature_selection import compute_feature_scores, get_selected_features
 from preprocessing.preprocessing import preprocess
 from utils import load_model
 
@@ -22,6 +24,8 @@ _n_features = None
 _cm = None
 _corr = None
 _corr_png = None
+_feature_scores = None
+_feature_columns = None
 
 
 def get_model():
@@ -38,7 +42,6 @@ def get_confusion_matrix():
     global _cm
     if _cm is None:
         model = get_model()
-        # `preprocess` affiche des informations de debug : on les garde hors de l'API.
         with contextlib.redirect_stdout(io.StringIO()):
             _, X_test, _, y_test = preprocess(load_dataset())
         if X_test.shape[1] != _n_features:
@@ -47,7 +50,6 @@ def get_confusion_matrix():
                 f"{X_test.shape[1]}."
             )
         y_pred = model.predict(X_test)
-        # labels explicites pour garantir l'ordre [Normale, Fraude] de config.LABELS.
         _cm = confusion_matrix(y_test, y_pred, labels=[0, 1])
     return _cm
 
@@ -60,8 +62,28 @@ def get_correlation_matrix():
     return _corr
 
 
-def _correlation_value(value):
-    """Garde des nombres JSON valides (une corrélation indéfinie devient 0)."""
+def get_feature_scores():
+    """Scores du train (feature_selection.py) sur les données vues par le sélecteur."""
+    global _feature_scores, _feature_columns
+    if _feature_scores is None:
+        model = get_model()
+        with contextlib.redirect_stdout(io.StringIO()):
+            X_train, _, y_train, _ = preprocess(load_dataset())
+        _feature_columns = list(X_train.columns)
+        if len(_feature_columns) != _n_features:
+            raise ValueError(
+                f"Le modèle attend {_n_features} variables, le dataset en contient "
+                f"{len(_feature_columns)}."
+            )
+        X_selected = model.named_steps["clipper"].transform(X_train)
+        X_selected = model.named_steps["scaler"].transform(X_selected)
+        X_selected = pd.DataFrame(X_selected, columns=_feature_columns)
+        _feature_scores = compute_feature_scores(X_selected, y_train)
+    return _feature_scores, _feature_columns
+
+
+def _json_number(value):
+    """Garde des nombres JSON valides (une valeur indéfinie devient 0)."""
     value = float(value)
     return round(value, 6) if math.isfinite(value) else 0.0
 
@@ -159,10 +181,39 @@ def correlation_matrix_endpoint():
         "method": "pearson",
         "target": config.TARGET,
         "labels": [str(col) for col in corr.columns],
-        "matrix": [[_correlation_value(v) for v in row] for row in corr.to_numpy()],
+        "matrix": [[_json_number(v) for v in row] for row in corr.to_numpy()],
         "target_correlations": {
-            str(col): _correlation_value(value) for col, value in target_corr.items()
+            str(col): _json_number(value) for col, value in target_corr.items()
         },
+    })
+
+
+@app.route("/feature-selection", methods=["GET"])
+def feature_selection_endpoint():
+    """Les k variables retenues par SelectKBest, classées par score ANOVA (F)."""
+    try:
+        scores, columns = get_feature_scores()
+        selected = set(get_selected_features(get_model(), columns))
+    except (FileNotFoundError, ValueError) as exc:
+        return jsonify({"error": str(exc)}), 503
+
+    ranked = scores[scores["Variable"].isin(selected)]
+    return jsonify({
+        "dataset": config.DATASET_NAME,
+        "target": config.TARGET,
+        "method": "anova_f",
+        "selector": "SelectKBest",
+        "k": int(len(ranked)),
+        "total_features": int(len(scores)),
+        "features": [
+            {
+                "name": str(row["Variable"]),
+                "anova_f": _json_number(row["ANOVA F"]),
+                "mutual_information": _json_number(row["Information mutuelle"]),
+                "rank": int(row["Rang F"]),
+            }
+            for row in ranked.to_dict("records")
+        ],
     })
 
 

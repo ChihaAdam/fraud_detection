@@ -1,14 +1,14 @@
 import { Intro } from '../components/Intro'
 import { TargetLinks } from '../components/visualisation/TargetLinks'
-import { useCorrelationMatrix } from '../hooks/useCorrelationMatrix'
+import { useFeatureSelection } from '../hooks/useFeatureSelection'
 import { useDetectionContext } from '../hooks/useFraudDetection'
-import { correlationMatrixEndpoint } from '../lib/correlationMatrix'
+import { featureSelectionEndpoint } from '../lib/featureSelection'
 import './TargetLinksPage.css'
 
 export function TargetLinksPage() {
   const { endpoint } = useDetectionContext()
-  const matrixEndpoint = correlationMatrixEndpoint(endpoint)
-  const { phase, matrix, error, reload } = useCorrelationMatrix(matrixEndpoint)
+  const selectionEndpoint = featureSelectionEndpoint(endpoint)
+  const { phase, selection, error, reload } = useFeatureSelection(selectionEndpoint)
 
   return (
     <>
@@ -19,19 +19,19 @@ export function TargetLinksPage() {
             Follow the target.<br /><em>Find the drivers.</em>
           </>
         }
-        lede="Which variables move with fraud, and which barely register? This ranking is computed by the Flask API from the same Pearson correlations shown in the full matrix."
+        lede="The variables the model actually keeps, ranked by the ANOVA F-score computed in feature_selection.py on the training split. Mutual information is shown alongside it."
         stats={[
-          { value: 'TOP 8', label: 'FEATURES' },
-          { value: matrix?.target ?? 'TARGET', label: 'CLASS' },
+          { value: selection ? `TOP ${selection.k}` : 'TOP …', label: 'FEATURES' },
+          { value: selection?.target ?? 'TARGET', label: 'CLASS' },
           { value: 'LIVE', label: 'API SOURCE' },
         ]}
       />
 
       <div className="work-grid target-links-layout">
-        <section className="panel target-links-panel" aria-label="Correlations with the target">
+        <section className="panel target-links-panel" aria-label="K best variables">
           <div className="panel-head">
             <span className="panel-index">01</span>
-            <h2>Target links</h2>
+            <h2>K best variables</h2>
             <button
               className="target-links-refresh"
               type="button"
@@ -40,22 +40,22 @@ export function TargetLinksPage() {
             >
               REFRESH
             </button>
-            <span className="panel-meta">GET /correlation-matrix</span>
+            <span className="panel-meta">GET /feature-selection</span>
           </div>
 
           <div className="target-links-panel-body" aria-live="polite">
             {phase === 'loading' && (
               <div className="loading-state">
                 <div className="scanner" aria-hidden="true"><span /></div>
-                <div className="loading-title">LOADING TARGET LINKS</div>
-                <p>Asking the model API for feature correlations with the fraud class…</p>
+                <div className="loading-title">LOADING FEATURE SCORES</div>
+                <p>Asking the model API for its SelectKBest ranking…</p>
               </div>
             )}
 
             {phase === 'error' && (
               <div className="error-state">
                 <div className="state-tag">LINK FAILURE</div>
-                <h3>NO LINKS</h3>
+                <h3>NO SCORES</h3>
                 <p>{error}</p>
                 <div className="target-links-error-hint">
                   Start the API with <code>python model/api/api.py</code> and check the endpoint below.
@@ -64,7 +64,7 @@ export function TargetLinksPage() {
               </div>
             )}
 
-            {phase === 'done' && matrix && <TargetLinks data={matrix} />}
+            {phase === 'done' && selection && <TargetLinks data={selection} />}
           </div>
         </section>
       </div>

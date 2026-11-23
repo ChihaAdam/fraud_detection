@@ -34,3 +34,20 @@ export type CorrelationMatrix = {
   matrix: number[][]
   target_correlations: Record<string, number>
 }
+
+export type FeatureScore = {
+  name: string
+  anova_f: number
+  mutual_information: number
+  rank: number
+}
+
+export type FeatureSelection = {
+  dataset: string
+  target: string
+  method: string
+  selector: string
+  k: number
+  total_features: number
+  features: FeatureScore[]
+}

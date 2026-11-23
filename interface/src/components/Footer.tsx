@@ -18,7 +18,7 @@ export function Footer({ endpoint, onEndpointChange }: Props) {
         />
       </label>
       <span className="footer-note">
-        POST /predict · GET /confusion-matrix · GET /correlation-matrix · FLASK MODEL API · VECTORS ARE ONLY SENT WHEN YOU RUN DETECTION
+        POST /predict · GET /confusion-matrix · GET /correlation-matrix · GET /feature-selection · FLASK MODEL API · VECTORS ARE ONLY SENT WHEN YOU RUN DETECTION
       </span>
     </footer>
   )

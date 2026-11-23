@@ -5,7 +5,7 @@ import './VisualisationPage.css'
 const tabs = [
   { to: '/visualisation/confusion-matrix', index: '01', label: 'CONFUSION MATRIX' },
   { to: '/visualisation/correlation-matrix', index: '02', label: 'CORRELATION MATRIX' },
-  { to: '/visualisation/target-links', index: '03', label: 'TARGET LINKS' },
+  { to: '/visualisation/target-links', index: '03', label: 'K BEST VARIABLES' },
 ]
 
 export function VisualisationPage() {
